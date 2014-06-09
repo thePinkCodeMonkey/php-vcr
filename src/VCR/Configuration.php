@@ -118,7 +118,7 @@ class Configuration
      *
      * @var array A blacklist is a list of paths.
      */
-    private $blackList = array('src/VCR/LibraryHooks/', 'src/VCR/Util/SoapClient', 'tests/VCR/Filter');
+    private $blackList = array('src/VCR/LibraryHooks/', 'src/VCR/Util/SoapClient', 'tests/VCR/Filter', 'src/VCR/Util/OAuth');
 
     /**
      * Returns the current blacklist.

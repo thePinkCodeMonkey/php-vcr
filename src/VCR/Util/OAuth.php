@@ -39,7 +39,7 @@ class OAuth extends \OAuth
      * @param array $http_headers
      * @return mixed|void
      */
-    public function fetch ($protected_resource_url, array $extra_parameters, $http_method, array $http_headers )
+    public function fetch ($protected_resource_url, $extra_parameters, $http_method, $http_headers )
     {
         $oauthHook = $this->getLibraryHook();
         \In_DebugLog::log("Calling the overwritten OAuth::fetch function");
@@ -108,7 +108,7 @@ class OAuth extends \OAuth
      * @param array $http_headers
      * @return boolean $result
      */
-    public function doRealFetch($protected_resource_url, array $extra_parameters, $http_method, array $http_headers ) {
+    public function doRealFetch($protected_resource_url, $extra_parameters, $http_method, $http_headers ) {
 
         $result = parent::fetch($protected_resource_url, $extra_parameters, $http_method, $http_headers);
         $this->setLastResponse(parent::getLastResponseInfo(), parent::getLastResponseHeaders(), parent::getLastResponse());
