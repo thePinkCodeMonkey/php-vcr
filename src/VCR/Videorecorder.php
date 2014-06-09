@@ -4,6 +4,7 @@ namespace VCR;
 
 use VCR\Util\Assertion;
 use VCR\Util\HttpClient;
+use VCR\Util\OAuth;
 
 /**
  * A videorecorder records requests on a cassette.
@@ -182,6 +183,53 @@ class Videorecorder
     }
 
     /**
+     * Records, sends or plays back a intercepted OAuth request.
+     *
+     * If a request was already recorded on a cassette it's response is fetched returned, otherwise, null is returned
+     *
+     * @param Request $request
+     * @param OAuth $oauth
+     * @throws \BadMethodCallException If there was no cassette inserted.
+     */
+    public function handleOauthRequest(Request $request)
+    {
+        if ($this->cassette === null) {
+            throw new \BadMethodCallException(
+                "Invalid http request. No cassette inserted. "
+                . "Please make sure to insert a cassette in your unit test using "
+                . "VCR::insertCassette('name');"
+            );
+        }
+
+        if ($this->cassette->hasResponse($request)) {
+            return $this->cassette->playback($request);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $request
+     * @param $response
+     * @throws \BadMethodCallException
+     */
+    public function recordResponse($request, $response) {
+        //Look to see if the request has been recorded already
+        if ($this->cassette === null) {
+            throw new \BadMethodCallException(
+                "Invalid http request. No cassette inserted. "
+                . "Please make sure to insert a cassette in your unit test using "
+                . "VCR::insertCassette('name');"
+            );
+        }
+
+        if (!$this->cassette->hasResponse($request)) {
+            \In_DebugLog::log("Recording the request/response pair");
+            $this->cassette->record($request, $response);
+        }
+    }
+
+    /**
      * Disables all library hooks.
      *
      * @api
@@ -208,11 +256,25 @@ class Videorecorder
         $self = $this;
         foreach ($this->config->getLibraryHooks() as $hookClass) {
             $hook = $this->factory->get($hookClass);
-            $hook->enable(
-                function (Request $request) use ($self) {
-                    return $self->handleRequest($request);
-                }
-            );
+            //hack TODO: how to fix it later
+            if(preg_match('/OAuthHook/', $hookClass) > 0) {
+                $hook->enable(
+                    function (Request $request) use ($self) {
+                        return $self->handleOauthRequest($request);
+                    }
+                );
+                $hook->setRecordCallback(function(Request $request, Response $response) use ($self) {
+                        return $self->recordResponse($request, $response);
+                    }
+                );
+            } else {
+                $hook->enable(
+                    function (Request $request) use ($self) {
+                        return $self->handleRequest($request);
+                    }
+                );
+            }
+
         }
     }
 

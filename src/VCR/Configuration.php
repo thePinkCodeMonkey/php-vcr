@@ -42,6 +42,7 @@ class Configuration
         'stream_wrapper' => 'VCR\LibraryHooks\StreamWrapperHook',
         'curl'           => 'VCR\LibraryHooks\CurlHook',
         'soap'           => 'VCR\LibraryHooks\SoapHook',
+        'oauth'          => 'VCR\LibraryHooks\OAuthHook',
     );
 
     /**

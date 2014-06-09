@@ -42,10 +42,12 @@ class HttpClient
             $response = $e->getResponse();
         }
 
-        return new Response(
+        $resultResponse = new Response(
             $response->getStatusCode(),
             $response->getHeaders(),
             $response->getBody()
         );
+        $resultResponse->setInfo($response->getInfo());
+        return ($resultResponse);
     }
 }
