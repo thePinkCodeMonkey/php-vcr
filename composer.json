@@ -1,12 +1,12 @@
 {
-    "name": "php-vcr/php-vcr",
-    "description": "Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.",
+    "name": "php-vcr",
+    "description": "Extension of php-vcr that records oAuth extensions as well.  Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.",
     "license": "MIT",
 
     "authors": [
         {
-            "name": "Adrian Philipp",
-            "email": "mail@adrian-philipp.com"
+            "name": "Kitty Tang",
+            "email": "thepinkcodemonkey@gmail.com"
         }
     ],
 
