@@ -224,7 +224,7 @@ class Videorecorder
         }
 
         if (!$this->cassette->hasResponse($request)) {
-            \In_DebugLog::log("Recording the request/response pair");
+
             $this->cassette->record($request, $response);
         }
     }

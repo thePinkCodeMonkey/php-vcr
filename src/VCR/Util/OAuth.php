@@ -42,7 +42,6 @@ class OAuth extends \OAuth
     public function fetch ($protected_resource_url, $extra_parameters, $http_method, $http_headers )
     {
         $oauthHook = $this->getLibraryHook();
-        \In_DebugLog::log("Calling the overwritten OAuth::fetch function");
         if($oauthHook->isEnabled()) {
             $result = $oauthHook->fetch($this, $protected_resource_url, $extra_parameters, $http_method, $http_headers);
         } else {

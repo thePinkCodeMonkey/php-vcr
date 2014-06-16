@@ -114,7 +114,6 @@ class OAuthHook implements LibraryHook
 
         if($response == null) {
             //$oauthClient->setLastResponseObject($response);
-            \In_DebugLog::log("Request/Response wasn't found");
             $result = $oauthClient->doRealFetch($protected_resource_url, $extra_parameters, $http_method, $http_headers);
             if($result == true) {
                 $response = $oauthClient->getLastResponseObject();
@@ -123,7 +122,6 @@ class OAuthHook implements LibraryHook
             }
         } else {
             $oauthClient->setLastResponseObject($response);
-            \In_DebugLog::log("Request/Response was found, and we replayed it, yes!");
             $result = true;
         }
         return $result;
